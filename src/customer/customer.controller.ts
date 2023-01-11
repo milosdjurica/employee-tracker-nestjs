@@ -9,8 +9,8 @@ import {
 } from '@nestjs/common';
 import { ObjectId } from 'mongoose';
 import { CustomerService } from './customer.service';
-import { CreateCustomerDto } from './dto/create-customer.dto';
-import { UpdateCustomerDto } from './dto/update-customer.dto';
+import { ObjectIdPipe } from '@Src/pipes/ObjectIdPipe';
+import { CreateCustomerDto, UpdateCustomerDto } from './dto';
 
 @Controller('customers')
 export class CustomerController {
@@ -27,20 +27,20 @@ export class CustomerController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: ObjectId) {
+  findOne(@Param('id', ObjectIdPipe) id: ObjectId) {
     return this.customerService.findOne(id);
   }
 
   @Patch(':id')
   update(
-    @Param('id') id: ObjectId,
+    @Param('id', ObjectIdPipe) id: ObjectId,
     @Body() updateCustomerDto: UpdateCustomerDto,
   ) {
     return this.customerService.update(id, updateCustomerDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: ObjectId) {
+  remove(@Param('id', ObjectIdPipe) id: ObjectId) {
     return this.customerService.remove(id);
   }
 }
