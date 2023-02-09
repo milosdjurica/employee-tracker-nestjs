@@ -8,9 +8,9 @@ import {
   Delete,
 } from '@nestjs/common';
 import { ObjectId } from 'mongoose';
-import { CustomerService } from './customer.service';
-import { ObjectIdPipe } from '@Src/pipes/ObjectIdPipe';
-import { CreateCustomerDto, UpdateCustomerDto } from './dto';
+import { CustomerService } from '../services/customer.service';
+import { ObjectIdPipe } from '@Src/common/pipes/ObjectIdPipe';
+import { CreateCustomerDto, UpdateCustomerDto } from '../dto';
 
 @Controller('customers')
 export class CustomerController {
