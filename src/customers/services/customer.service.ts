@@ -25,9 +25,9 @@ export class CustomerService {
       updateCustomerDto,
       {
         new: true,
-        projection: {
-          __v: 0,
-        },
+        // projection: {
+        //   // __v: 0,
+        // },
       },
     );
   }
