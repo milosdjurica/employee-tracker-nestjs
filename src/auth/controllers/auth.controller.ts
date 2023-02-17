@@ -5,6 +5,7 @@ import {
   HttpStatus,
   Post,
   UseGuards,
+  UsePipes,
 } from '@nestjs/common';
 import { AuthService } from '../services/auth.service';
 import { LoginDto, RegisterDto } from '../dto';
@@ -16,12 +17,14 @@ import {
   Public,
 } from '@Src/common/decorators';
 import { ObjectId } from 'mongoose';
+import { PasswordValidationPipe } from '@Src/common/pipes';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Public()
+  @UsePipes(new PasswordValidationPipe())
   @Post('register')
   @HttpCode(HttpStatus.CREATED)
   register(@Body() dto: RegisterDto): Promise<Tokens> {

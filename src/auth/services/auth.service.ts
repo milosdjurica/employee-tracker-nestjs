@@ -19,16 +19,17 @@ export class AuthService {
   ) {}
 
   async register(dto: RegisterDto): Promise<Tokens> {
-    const usernameTaken = await this.usersRepository.findOne({
+    const emailTaken = await this.usersRepository.findOne({
       email: dto.email,
     });
 
-    if (usernameTaken)
+    if (emailTaken)
       throw new HttpException(
         'Username is already taken! Please provide another one.',
         HttpStatus.BAD_REQUEST,
       );
 
+    delete dto.confirmPassword;
     const hash = await this.hashData(dto.password);
 
     const user = await this.usersRepository.create({ email: dto.email, hash });
@@ -71,7 +72,8 @@ export class AuthService {
     const user = await this.usersRepository.findOne({ _id: userId });
     // if logged out hashedRt will be null
     // have to check for hashedRt or program can break on bcrypt compare
-    if (!user || !user.hashedRt) throw new ForbiddenException('User not found!');
+    if (!user || !user.hashedRt)
+      throw new ForbiddenException('User not found!');
 
     const rtMatches = await bcrypt.compare(rt, user.hashedRt);
     if (!rtMatches) throw new ForbiddenException('Refresh token not valid!');
