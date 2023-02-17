@@ -9,6 +9,7 @@ export class CustomerService {
 
   async create(createCustomerDto: CreateCustomerDto) {
     const customer = await this.customerRepository.create(createCustomerDto);
+    return customer;
   }
 
   findAll() {
